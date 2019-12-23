@@ -132,6 +132,13 @@ Scope (\_SB.PCI0.I2C1)
 			Interrupt (ResourceConsumer, Edge, ActiveLow) { 38 }
 		})
 
+		Name (_DSD, Package () {
+			ToUUID("daffd814-6eba-4d8c-8a91-bc9bbf4aa301"),
+			Package () {
+				Package () {"compatible", Package () {"atmel,maxtouch"}}
+			}
+		})
+
 		Name (_PRW, Package() { BOARD_TOUCHSCREEN_WAKE_GPIO, 0x3 })
 
 		Method (_DSW, 3, NotSerialized)
