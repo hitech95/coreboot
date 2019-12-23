@@ -152,4 +152,37 @@ Scope (\_SB.PCI0.I2C1)
 			}
 		}
 	}
+
+	Device (ALSD)
+	{
+		Name (_HID, "ISL29023")
+		Name (_DDN, "Renesas ALS")
+		Name (_UID, 6)
+		Name (_CRS, ResourceTemplate()
+		{
+			I2cSerialBus (
+				0x44,                     // SlaveAddress
+				ControllerInitiated,      // SlaveMode
+				400000,                   // ConnectionSpeed
+				AddressingMode7Bit,       // AddressingMode
+				"\\_SB.PCI0.I2C1"         // ResourceSource
+			)
+
+			// GPIO51 (ball R5) is PIRQT: PIRQL_GSI + PIRQL - PIRQT = PIRQW_GSI
+			// 27 + 3 - 11 = 35
+			Interrupt (ResourceConsumer, Edge, ActiveLow)
+			{
+				BOARD_LIGHTSENSOR_IRQ
+			}
+		})
+
+		Method (_STA)
+		{
+			If (LEqual (\S2EN, 1)) {
+				Return (0xF)
+			} Else {
+				Return (0x0)
+			}
+		}
+	}
 }
